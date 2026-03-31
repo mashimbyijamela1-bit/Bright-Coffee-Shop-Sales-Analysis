@@ -10,8 +10,10 @@ The aim of this project is to provide analysis with key insights on the revenue 
 
 ### Objectived
 The followimg steps were taken to execute the project
--Project planning using Canva
 -Brainstorming ideas using Miro
+-Project planning using Canva
 -Data processing usind databricks
+-Pivot tables and charts on Excel
 
 ### Summary of results
+The Analysis shows that sales in the coffee store are low during warmer days as compared to when the season is winter. I noticed an increase in sales as the winter seasons approach and also that products are mostly bought beginning of the month as compared to towards month end, which could be a result of what we call 'mampara week'.
