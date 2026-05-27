@@ -1,0 +1,120 @@
+SELECT*
+From workspace.default.bright_coffee_shop_sales_analysis
+
+-- checking the date range --
+select MIN(transaction_date) as minimum_date
+from workspace.default.bright_coffee_shop_sales_analysis;
+
+select MAX(transaction_date) as latest_date
+from workspace.default.bright_coffee_shop_sales_analysis;
+
+-- checking different store locations
+select distinct store_location
+from workspace.default.bright_coffee_shop_sales_analysis;
+
+-- checking products sold  --
+select distinct product_category
+from workspace.default.bright_coffee_shop_sales_analysis;
+
+-- checking product types sold at our stores ---
+select distinct product_types
+from workspace.default.bright_coffee_shop_sales_analysis;
+
+-- checking product detail ---
+select distinct product_detail
+from workspace.default.bright_coffee_shop_sales_analysis;
+
+-- grouping revenue by product category (best/least selling products)--
+
+select SUM(unit_price*transaction_qty) AS total_revenue,
+       product_category 
+from workspace.default.bright_coffee_shop_sales_analysis
+group by product_category;
+
+-- calculating total revenue by store location --
+select SUM(unit_price*transaction_qty) as total_revenue_per_store,
+       store_id,
+       store_location
+from workspace.default.bright_coffee_shop_sales_analysis
+group by store_id,
+         store_location
+from workspace.default.bright_coffee_shop_sales_analysis;
+
+-- total revenue per product type --
+
+ select SUM(unit_price*transaction_qty) AS total_revenue,
+        product_type
+from workspace.default.bright_coffee_shop_sales_analysis
+group by product_type
+order by total_revenue desc;
+
+-- checking for NULLS --
+select*
+from workspace.default.bright_coffee_shop_sales_analysis
+where unit_priceb is NULL
+OR transaction_qty is NULL
+OR transaction_date is NULL;
+
+-- minimum and maximum unit price --
+select MIN (unit_price) as lowest_unit_price,
+       MAX (unit_price) as highest_unit_price
+from workspace.default.bright_coffee_shop_sales_analysis;
+
+-- extracting day and month names--
+select 
+      transaction_date,
+      Dayname (transaction_date) AS Day_name,
+      Monthname (transaction_date) AS Month_name
+from workspace.default.bright_coffee_shop_sales_analysis; 
+
+-- calculating total revenue by Bright Coffee Shop 
+select unit_price,
+       transaction_qty,
+       SUM(unit_price*transaction_qty) AS total_revenue
+from workspace.default.bright_coffee_shop_sales_analysis; 
+
+-- THE BIG QUERY --
+SELECT 
+      transaction_id,
+      transaction_date,
+      transaction_time,
+      transaction_qty,
+      store_id,
+      store_location,
+      product_id,
+      unit_price,
+      product_category,
+      product_type,
+      product_detail,
+
+-- adding columns to enhance the table for better insights-- 
+      Dayname (transaction_date) AS Day_name,
+      Monthname (transaction_date) AS Month_name,
+      DayofMonth (transaction_date) AS Date_of_month,
+
+-- determining weekday/weekend --
+  CASE 
+      WHEN Dayname (transaction_date) IN ('Sun','Sat') THEN 'weekend'
+      ELSE 'weekday'
+ END AS Day_classification,
+
+-- time buckets
+CASE 
+      WHEN date_format (transaction_time, 'HH:mm:ss') BETWEEN '05:00:00' AND '08:59:59' THEN '01.Rush Hour'
+      WHEN date_format (transaction_time, 'HH:mm:ss') BETWEEN '09:00:00' AND '11:59:59' THEN '02.Mid Morning'
+      WHEN date_format (transaction_time, 'HH:mm:ss') BETWEEN '12:00:00' AND '15:59:59' THEN '03.Afternoon'
+      WHEN date_format (transaction_time, 'HH:mm:ss') BETWEEN '16:00:00' AND '18:59:59' THEN '04.Evening'
+      ELSE '05.Night'
+ END AS Time_classification,
+
+-- spend buckets --
+CASE 
+      WHEN (transaction_qty*unit_price) <=50 THEN '01.Low spender'
+      WHEN (transaction_qty*unit_price) BETWEEN 51 AND 200 THEN '02. Medium spender'
+      WHEN (transaction_qty*unit_price) BETWEEN 201 AND 300 THEN '03.Moreki'
+      ELSE '04.Blesser'
+ END AS spend_bucket,
+
+-- calculating total revenue --
+select SUM(unit_price*transaction_qty) AS total_revenue
+from workspace.default.bright_coffee_shop_sales_analysis;
