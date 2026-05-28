@@ -8,7 +8,7 @@ from workspace.default.bright_coffee_shop_sales_analysis;
 select MAX(transaction_date) as latest_date
 from workspace.default.bright_coffee_shop_sales_analysis;
 
--- checking different store locations
+-- checking different store locations--
 select distinct store_location
 from workspace.default.bright_coffee_shop_sales_analysis;
 
@@ -67,7 +67,7 @@ select
       Monthname (transaction_date) AS Month_name
 from workspace.default.bright_coffee_shop_sales_analysis; 
 
--- calculating total revenue by Bright Coffee Shop 
+-- calculating total revenue by Bright Coffee Shop--
 select unit_price,
        transaction_qty,
        SUM(unit_price*transaction_qty) AS total_revenue
@@ -98,7 +98,7 @@ SELECT
       ELSE 'weekday'
  END AS Day_classification,
 
--- time buckets
+-- time buckets--
 CASE 
       WHEN date_format (transaction_time, 'HH:mm:ss') BETWEEN '05:00:00' AND '08:59:59' THEN '01.Rush Hour'
       WHEN date_format (transaction_time, 'HH:mm:ss') BETWEEN '09:00:00' AND '11:59:59' THEN '02.Mid Morning'
