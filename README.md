@@ -3,7 +3,7 @@ Conducting sales analysis for the CEO to understand the performance of the shop 
 
 ### Problem Statement
 
-The coffee shop has been underperforming in the last 3 months, I am tasked to perform diagnostics on what caused the drop in revenue
+The coffee shop has been underperforming in the last 6 months, I am tasked to perform diagnostics on what caused the drop in revenue. The newly appointed CEO wants to grow the coffee shop's revenue and improve product performance using data-driven insights
 
 ### Aim of the project
 The aim of this project is to provide analysis with key insights on the revenue decline
